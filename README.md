@@ -1,5 +1,7 @@
 # speedtest_server
 
+Demo Server: http://18.157.156.247/
+
 System Requirements:
 * Minimum 1GB Ram
 * Linux
