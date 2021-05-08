@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Internet Speed Test</title>
+    <script type="text/javascript">
+
+        function Speedtest() {
+        }
+
+        Speedtest.prototype = {
+            constructor: Speedtest,
+            start: function () {
+                this.worker = new Worker("worker.js");
+                this.worker.onmessage = function (m) {
+                    var data = JSON.parse(m.data);
+                    document.getElementById("pResult").textContent=data.pResult;
+                    document.getElementById("dResult").textContent=data.dResult;
+                    document.getElementById("uResult").textContent=data.uResult;
+                    document.getElementById("dSize").textContent=data.dSize;
+                    document.getElementById("uSize").textContent=data.uSize;
+                    document.getElementById("dTime").textContent=data.dTime;
+                    document.getElementById("uTime").textContent=data.uTime;
+                    switch (data.tStatus) {
+                        case 0:
+                            document.getElementById("but1").textContent = "Start";
+                            break;
+                        case 1:
+                            document.getElementById("but1").textContent = "Pinging";
+                            break;
+                        case 2:
+                            document.getElementById("but1").textContent = "Downloading";
+                            break;
+                        case 3:
+                            document.getElementById("but1").textContent = "Uploading";
+                    }
+                }.bind(this);
+                this.updater = setInterval(
+                    function () {
+                        this.worker.postMessage("status");
+                    }.bind(this),
+                    200
+                );
+                this.worker.postMessage("start");
+            }
+        };
+        console.log("Utku Çelebiöven speedtest v5");
+        var t =new Speedtest();
+    </script>
+</head>
+<body>
+    <div style="float: left; width: 100%">
+        <h1 style="text-align: center">Internet Speed Test</h1>
+    </div>
+
+    <div style = "float: left; width:100%">
+        <div style = "float:left; width: 50%;">
+            <h4 style="text-align: start">Ping (ms):</h4>
+            <h4 id="pResult">00.00</h4>
+        </div>
+        <div style = "float:left; width: 50%;">
+        </div>
+    </div>
+    <div style = "float:left; width:100%">
+        <div style = "float:left; width: 33%;">
+            <h4 style="text-align: start">Download Speed (Mbps):</h4>
+            <h4 id="dResult">00.00</h4>
+        </div>
+        <div style = "float:left; width: 33%;">
+            <h4>Data Transmitted (MB):</h4>
+            <h4 id="dSize">00.00</h4>
+        </div>
+        <div style = "float:left; width: 33%;">
+            <h4 style="text-align: start">Test Time (s):</h4>
+            <h4 id="dTime">00.00</h4>
+        </div>
+    </div>
+    <div style = "float: left; width:100%">
+        <div style = "float:left; width: 33%;">
+            <h4 style="text-align: start">Upload Speed (Mbps):</h4>
+            <h4 id="uResult">00.00</h4>
+        </div>
+        <div style = "float:left; width: 33%;">
+            <h4>Data Transmitted (MB):</h4>
+            <h4 id="uSize">00.00</h4>
+        </div>
+        <div style = "float:left; width: 33%;">
+            <h4 style="text-align: start">Test Time (s):</h4>
+            <h4 id="uTime">00.00</h4>
+        </div>
+    </div>
+    <div style="float: left; width: 25%">
+        <button id="but1" type="button" onclick="t.start()" style="
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        font-size: 16px;">Start Test</button>
+    </div>
+</body>
+</html>
