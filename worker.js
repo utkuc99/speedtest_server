@@ -10,7 +10,7 @@ var uTime = "";
 
 //settings
 var ping_Testfile = "empty.php"; //ping test file
-var download_Testfile = "100MB.zip"; //download test file options: 1MB.zip, 10MB.zip, 100MB.zip
+var download_Testfile = "10MB.zip"; //download test file options: 1MB.zip, 10MB.zip
 var upload_Testfile = "empty.php"; //upload dummy file
 var upload_Testfile_Size = 20; // size of blobs used in upload test (megabytes)
 var download_Multistream = 6; // amount of download streams to preform
